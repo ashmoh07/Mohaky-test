@@ -1,0 +1,29 @@
+name: Mida_Final_Stable
+on: [push]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Install Libs
+        run: |
+          pip install flask flask-socketio pyautogui opencv-python numpy pyinstaller
+
+      - name: Build Mida EXE
+        run: |
+          pyinstaller --onefile --windowed --name "Mida_Pro_v1" main.py
+
+      - name: Save Product
+        uses: actions/upload-artifact@v4
+        with:
+          name: Mida_Installation_Package
+          path: dist/*.exe
+          
